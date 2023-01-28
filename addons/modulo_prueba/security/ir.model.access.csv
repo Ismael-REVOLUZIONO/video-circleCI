@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_academia_student,access_academia_student,model_academia_student,,1,1,1,1
+access_academa_calificacion,access_academia_calificacion,model_academia_calificacion,,1,1,1,1
+access_academia_materia,access_academia_materia,model_academia_materia,,1,1,1,1
+access_academia_grado,access_academia_grado,model_academia_grado,,1,1,1,1
+access_academia_materia_list,access_academia_materia_list,model_academia_materia_list,,1,1,1,1
+access_make_student_invoice,access_make_student_invoice,model_make_student_invoice,,1,1,1,1

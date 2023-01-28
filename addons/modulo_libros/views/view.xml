@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="libros_view_form" model="ir.ui.view">
+            <field name="name">libros.view.form</field>
+            <field name="model">libros</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <group >
+                                <field name="image" widget="image" class="oe_avatar oe_left" ></field>
+                                <field name="name"></field>
+                                <field name="editorial"></field>
+                                <field name="isbn"></field>
+                                <field name="author_id"></field>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter" >
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="libros_view_tree" model="ir.ui.view">
+            <field name="name">libros.view.tree</field>
+            <field name="model">libros</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"></field>
+                    <field name="editorial"></field>
+                    <field name="isbn"></field>
+                    <field name="author_id"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="libros_view_kanban" model="ir.ui.view">
+            <field name="name">libros.view.kanban</field>
+            <field name="model">libros</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"></field>
+                    <field name="name"></field>
+                    <field name="editorial"></field>
+                    <field name="isbn"></field>
+                    <field name="author_id"></field>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('libros','image',record.id.raw_value)" />
+                                </div>
+                                <div class="" >
+                                    <field name="name" class="fw-bold  d-block mb-3 fs-3"></field>
+                                    <field name="editorial" class="d-block"></field>
+                                    <field name="author_id"></field>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="author_view_form" model="ir.ui.view">
+            <field name="name">author.view.form</field>
+            <field name="model">author</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="author_action" model="ir.actions.act_window">
+            <field name="name">author</field>
+            <field name="res_model">author</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+        <record id="libros_action" model="ir.actions.act_window">
+            <field name="name">libros</field>
+            <field name="res_model">libros</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+    
+        <menuitem id="libreria_menu" name="MI LIBRERIA"/>
+        <menuitem id="libros_menu" parent="libreria_menu" name="Libros" action="libros_action"/>
+        <menuitem id="Authores_menu" parent="libreria_menu" name="Authores" action="author_action"/>
+    </data>
+
+</odoo>
