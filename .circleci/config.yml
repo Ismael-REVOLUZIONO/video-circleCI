@@ -32,7 +32,7 @@ jobs:
           environment:
             DOCKERIZE_VERSION: v0.3.0
       - run:
-          name: init db
+          name: init database
           command: 
             dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
