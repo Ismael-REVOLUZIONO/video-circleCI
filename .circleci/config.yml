@@ -1,0 +1,56 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/addons
+
+    docker:
+    # Primary container image where all commands run
+      - image: antilhuecom/odoo-base
+        environment:
+          DB_HOST: 127.0.0.1
+          DATABASE: odoo
+          USER: odoo
+          ODOO_ENVIROMENT: CI
+    # Service container image available at `host: localhost`
+      - image: circleci/postgres:13
+        environment:
+          POSTGRES_USER: odoo
+          POSTGRES_DB: odoo
+          POSTGRES_PASSWORD: odoo
+
+    steps:
+      - checkout
+      - run:
+          name: Install dependences
+          command: |
+            apt-get update
+            apt-get install wget
+            wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            pip3 install -r requirements.txt
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+      - run:
+          name: init db
+          command: 
+            dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Install odoo
+          command: |
+            odoo -d odoo --db_host $DB_HOST -r $USER --stop-after-init
+      - run:
+          name: Install modules and Run test
+          command: |
+            odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -i  $MODULE_TEST --stop-after-init
+            odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -u  $MODULE_TEST --test-enable --log-level=test --stop-after-init
+          environment:
+            ADDONS_PATH: "./addons"
+            MODULE_TEST: "modulo_libros,modulo_prueba"
+      - store_test_results:
+          path: test-results
+
+              
+            
+              
+    
