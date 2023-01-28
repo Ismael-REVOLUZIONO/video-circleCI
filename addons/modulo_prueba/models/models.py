@@ -2,7 +2,7 @@
 from odoo import _, api,fields,models, exceptions
 
 class make_student_invoice(models.TransientModel):
-    _name = 'make.student.invoice'
+    _name = 'make.student.invoicess'
     _description = 'asistente para generar facturas'
     
     journal_id = fields.Many2one('account.journal', 'Diario',domain="[('type','=','sale')]")
